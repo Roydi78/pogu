@@ -57,6 +57,7 @@ function ProductModal({ product, onClose, onSave }) {
       : { nom: '', parfum: '', description: '', prix: 3500, image_url: '', actif: true }
   )
   const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState(null)
   const [saving, setSaving] = useState(false)
   const fileRef = useRef()
 
@@ -66,10 +67,11 @@ function ProductModal({ product, onClose, onSave }) {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
+    setUploadError(null)
     const ext = file.name.split('.').pop()
     const path = `${Date.now()}.${ext}`
     const { error } = await supabase.storage.from('product-images').upload(path, file, { upsert: true })
-    if (error) { alert('Erreur upload: ' + error.message); setUploading(false); return }
+    if (error) { setUploadError(error.message); setUploading(false); return }
     const { data } = supabase.storage.from('product-images').getPublicUrl(path)
     set('image_url', data.publicUrl)
     setUploading(false)
@@ -78,9 +80,9 @@ function ProductModal({ product, onClose, onSave }) {
   const handleSave = async () => {
     if (!form.nom || !form.prix) return
     setSaving(true)
-    await onSave(form)
+    const { error } = await onSave(form)
     setSaving(false)
-    onClose()
+    if (!error) onClose()
   }
 
   return (
@@ -118,6 +120,9 @@ function ProductModal({ product, onClose, onSave }) {
               </button>
               <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
             </div>
+            {uploadError && (
+              <p className="text-red-400 text-xs mt-2">Erreur upload : {uploadError}</p>
+            )}
           </div>
 
           <Field label="Nom" value={form.nom} onChange={v => set('nom', v)} placeholder="Ex: Chocolat Vanille" />
@@ -283,9 +288,11 @@ export default function Admin() {
     if (id) {
       const { error } = await update(id, payload)
       error ? showToast('Erreur: ' + error.message, 'error') : showToast('Produit mis à jour !')
+      return { error }
     } else {
       const { error } = await add(payload)
       error ? showToast('Erreur: ' + error.message, 'error') : showToast('Produit ajouté !')
+      return { error }
     }
   }
 
