@@ -7,15 +7,15 @@ const STATS = [
 
 export default function Stats() {
   return (
-    <div className="border-t border-b border-white/[0.08] bg-pogu-black py-16">
+    <div className="py-16" style={{ background: 'linear-gradient(135deg, #F5C518 0%, #F57C00 100%)' }}>
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
           {STATS.map(s => (
             <div key={s.label}>
-              <span className="block font-head text-5xl font-black text-pogu-yellow leading-none mb-2">
+              <span className="block font-head text-5xl font-black text-white leading-none mb-2">
                 {s.num}
               </span>
-              <span className="text-white/50 text-sm font-medium">{s.label}</span>
+              <span className="text-white/80 text-sm font-medium">{s.label}</span>
             </div>
           ))}
         </div>

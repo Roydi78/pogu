@@ -19,12 +19,12 @@ function getStyle(nom) {
 
 function Skeleton() {
   return (
-    <div className="bg-pogu-black border border-white/[0.08] rounded-3xl overflow-hidden animate-pulse">
-      <div className="h-64 bg-white/[0.06]" />
+    <div className="bg-white border border-gray-200 rounded-3xl overflow-hidden animate-pulse shadow-sm">
+      <div className="h-64 bg-gray-100" />
       <div className="p-6 space-y-3">
-        <div className="h-4 bg-white/[0.06] rounded-full w-1/2" />
-        <div className="h-3 bg-white/[0.04] rounded-full w-full" />
-        <div className="h-3 bg-white/[0.04] rounded-full w-3/4" />
+        <div className="h-4 bg-gray-100 rounded-full w-1/2" />
+        <div className="h-3 bg-gray-100 rounded-full w-full" />
+        <div className="h-3 bg-gray-100 rounded-full w-3/4" />
       </div>
     </div>
   )
@@ -47,7 +47,7 @@ export default function Flavors({ onOrder }) {
   }, [loading, products])
 
   return (
-    <section id="parfums" className="py-32 bg-pogu-surface relative">
+    <section id="parfums" className="py-32 bg-pogu-peach relative">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pogu-yellow to-transparent" />
 
       <div className="max-w-6xl mx-auto px-6">
@@ -55,10 +55,10 @@ export default function Flavors({ onOrder }) {
           <span className="inline-block font-head text-xs font-bold uppercase tracking-[0.2em] text-pogu-yellow mb-4">
             La collection
           </span>
-          <h2 className="font-head text-[clamp(2rem,5vw,3.5rem)] font-black leading-tight tracking-tight text-white mb-4">
+          <h2 className="font-head text-[clamp(2rem,5vw,3.5rem)] font-black leading-tight tracking-tight text-pogu-dark mb-4">
             Nos parfums
           </h2>
-          <p className="text-white/50 text-base max-w-md mx-auto">
+          <p className="text-gray-500 text-base max-w-md mx-auto">
             Chaque canette est une nouvelle aventure gustative.
           </p>
         </div>
@@ -73,7 +73,7 @@ export default function Flavors({ onOrder }) {
                   <div
                     key={p.id}
                     data-card
-                    className="group opacity-0 translate-y-8 transition-all duration-700 flex flex-col bg-pogu-black border border-white/[0.08] rounded-3xl overflow-hidden hover:-translate-y-2 hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)] hover:border-white/[0.15]"
+                    className="group opacity-0 translate-y-8 transition-all duration-700 flex flex-col bg-white border border-gray-200 rounded-3xl overflow-hidden hover:-translate-y-2 hover:shadow-[0_24px_60px_rgba(0,0,0,0.12)] hover:border-gray-300"
                     style={{ transitionDelay: `${i * 80}ms` }}
                   >
                     <div className="w-full h-64 overflow-hidden" style={{ backgroundColor: bg }}>
@@ -84,8 +84,8 @@ export default function Flavors({ onOrder }) {
                     </div>
 
                     <div className="flex flex-col flex-1 p-6">
-                      <h3 className="font-head text-lg font-bold text-white mb-2">{p.nom}</h3>
-                      <p className="text-white/50 text-sm leading-relaxed flex-1 mb-4">{p.description || `Saveur ${p.parfum || p.nom} en canette.`}</p>
+                      <h3 className="font-head text-lg font-bold text-gray-900 mb-2">{p.nom}</h3>
+                      <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-4">{p.description || `Saveur ${p.parfum || p.nom} en canette.`}</p>
                       {p.prix && (
                         <p className="font-head font-black text-base mb-4" style={{ color: linkColor }}>
                           {Number(p.prix).toLocaleString('fr-CI')} FCFA
@@ -102,7 +102,7 @@ export default function Flavors({ onOrder }) {
                       </button>
                     </div>
 
-                    <div className="h-1 w-full opacity-70 group-hover:opacity-100 transition-opacity" style={{ background: accent }} />
+                    <div className="h-1 w-full opacity-60 group-hover:opacity-100 transition-opacity" style={{ background: accent }} />
                   </div>
                 )
               })
@@ -111,7 +111,7 @@ export default function Flavors({ onOrder }) {
 
         {!loading && products.length === 0 && (
           <div className="text-center py-16">
-            <p className="text-white/30 font-head text-base">Aucun produit disponible pour le moment.</p>
+            <p className="text-gray-400 font-head text-base">Aucun produit disponible pour le moment.</p>
           </div>
         )}
       </div>

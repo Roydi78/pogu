@@ -17,6 +17,9 @@ export default {
           earth:   '#6D4C41',
           orange:  '#F57C00',
           muted:   'rgba(240,240,240,0.55)',
+          cream:   '#FFFBF0',
+          peach:   '#FFF5E6',
+          dark:    '#1A1A1A',
         },
       },
       fontFamily: {
