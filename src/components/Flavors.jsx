@@ -67,8 +67,9 @@ export default function Flavors({ onOrder }) {
           {loading
             ? [...Array(6)].map((_, i) => <Skeleton key={i} />)
             : products.map((p, i) => {
-                const { accent, bg } = getStyle(p.nom)
-                const linkColor = accent === '#d4a200' ? '#F5C518' : accent
+                const { accent } = getStyle(p.nom)
+                const resolvedAccent = p.couleur || accent
+                const linkColor = resolvedAccent === '#d4a200' ? '#F5C518' : resolvedAccent
                 return (
                   <div
                     key={p.id}
@@ -76,7 +77,7 @@ export default function Flavors({ onOrder }) {
                     className="group opacity-0 translate-y-8 transition-all duration-700 flex flex-col bg-white border border-gray-200 rounded-3xl overflow-hidden hover:-translate-y-2 hover:shadow-[0_24px_60px_rgba(0,0,0,0.12)] hover:border-gray-300"
                     style={{ transitionDelay: `${i * 80}ms` }}
                   >
-                    <div className="w-full h-64 overflow-hidden" style={{ backgroundColor: bg }}>
+                    <div className="w-full h-64 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
                       {p.image_url
                         ? <img src={p.image_url} alt={p.nom} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" />
                         : <div className="w-full h-full flex items-center justify-center text-6xl">🍰</div>
@@ -94,15 +95,15 @@ export default function Flavors({ onOrder }) {
                       <button
                         onClick={() => onOrder?.(p)}
                         className="font-head text-sm font-bold w-full py-2.5 rounded-xl border transition-all"
-                        style={{ borderColor: `${accent}40`, color: linkColor }}
-                        onMouseEnter={e => { e.currentTarget.style.background = `${accent}15` }}
+                        style={{ borderColor: `${linkColor}40`, color: linkColor }}
+                        onMouseEnter={e => { e.currentTarget.style.background = `${linkColor}15` }}
                         onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
                       >
                         Commander ce parfum →
                       </button>
                     </div>
 
-                    <div className="h-1 w-full opacity-60 group-hover:opacity-100 transition-opacity" style={{ background: accent }} />
+                    <div className="h-1 w-full opacity-60 group-hover:opacity-100 transition-opacity" style={{ background: linkColor }} />
                   </div>
                 )
               })

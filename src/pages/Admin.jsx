@@ -54,7 +54,7 @@ function ProductModal({ product, onClose, onSave }) {
   const [form, setForm] = useState(
     product?.id
       ? { ...product }
-      : { nom: '', parfum: '', description: '', prix: 3500, image_url: '', actif: true }
+      : { nom: '', parfum: '', description: '', prix: 3500, image_url: '', couleur: '', actif: true }
   )
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState(null)
@@ -100,7 +100,7 @@ function ProductModal({ product, onClose, onSave }) {
           <div>
             <label className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-2">Image du produit</label>
             {form.image_url && (
-              <div className="w-full h-36 rounded-2xl overflow-hidden mb-3" style={{ background: '#f5f0e8' }}>
+              <div className="w-full h-36 rounded-2xl overflow-hidden mb-3" style={{ background: '#ffffff' }}>
                 <img src={form.image_url} alt="" className="w-full h-full object-contain" />
               </div>
             )}
@@ -129,6 +129,38 @@ function ProductModal({ product, onClose, onSave }) {
           <Field label="Parfum" value={form.parfum} onChange={v => set('parfum', v)} placeholder="Ex: Chocolat Vanille" />
           <Field label="Description" value={form.description} onChange={v => set('description', v)} placeholder="Description courte..." multiline />
           <Field label="Prix (FCFA)" value={form.prix} onChange={v => set('prix', Number(v))} type="number" />
+
+          {/* Couleur du bouton */}
+          <div>
+            <label className="text-white/50 text-xs font-bold uppercase tracking-wider block mb-2">
+              Couleur du bouton "Commander ce parfum"
+            </label>
+            <div className="flex items-center gap-3">
+              <input
+                type="color"
+                value={form.couleur || '#F5C518'}
+                onChange={e => set('couleur', e.target.value)}
+                className="w-10 h-10 rounded-lg cursor-pointer border border-white/10 bg-transparent p-0.5 shrink-0"
+              />
+              <input
+                value={form.couleur || ''}
+                onChange={e => set('couleur', e.target.value)}
+                placeholder="#F5C518 (laisser vide = couleur automatique)"
+                className="flex-1 bg-pogu-black border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:border-pogu-yellow/50 outline-none"
+              />
+            </div>
+            {form.couleur && (
+              <div className="mt-2.5 flex items-center gap-2">
+                <span className="text-white/30 text-xs">Aperçu :</span>
+                <span
+                  className="font-head font-bold text-xs px-4 py-1.5 rounded-xl border"
+                  style={{ borderColor: `${form.couleur}50`, color: form.couleur }}
+                >
+                  Commander ce parfum →
+                </span>
+              </div>
+            )}
+          </div>
 
           <div className="flex items-center gap-3">
             <button
@@ -484,7 +516,7 @@ export default function Admin() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {products.map(p => (
                     <div key={p.id} className={`bg-pogu-surface border rounded-2xl overflow-hidden transition-all ${p.actif ? 'border-white/[0.08]' : 'border-white/[0.04] opacity-55'}`}>
-                      <div className="h-44 overflow-hidden" style={{ background: '#f5f0e8' }}>
+                      <div className="h-44 overflow-hidden" style={{ background: '#ffffff' }}>
                         {p.image_url
                           ? <img src={p.image_url} alt={p.nom} className="w-full h-full object-contain" />
                           : <div className="w-full h-full flex items-center justify-center text-4xl">🍰</div>
