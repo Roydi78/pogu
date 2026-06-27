@@ -34,19 +34,19 @@ export function useOrders() {
 
   const placeOrder = async ({ client, lignes }) => {
     const montant_total = lignes.reduce((s, l) => s + l.prix_unitaire * l.quantite, 0)
-    const { data: cmd, error: cmdErr } = await supabase
+    const commande_id = crypto.randomUUID()
+
+    const { error: cmdErr } = await supabase
       .from('commandes')
-      .insert({ ...client, montant_total, statut: 'en_attente' })
-      .select()
-      .single()
+      .insert({ id: commande_id, ...client, montant_total, statut: 'en_attente' })
     if (cmdErr) return { error: cmdErr }
 
-    const items = lignes.map(l => ({ ...l, commande_id: cmd.id }))
+    const items = lignes.map(l => ({ ...l, commande_id }))
     const { error: linesErr } = await supabase.from('lignes_commande').insert(items)
     if (linesErr) return { error: linesErr }
 
     await fetch()
-    return { data: cmd }
+    return { data: { id: commande_id } }
   }
 
   return { orders, loading, error, updateStatut, placeOrder, refresh: fetch }
